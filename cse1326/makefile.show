@@ -1,0 +1,4 @@
+CXXFLAGS = "-Wall -std=gnu++17 -g -O0"
+show:
+	echo $(CXX)
+	echo $(CXXFLAGS)
