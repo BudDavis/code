@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include <array>
 struct doctor
 {
 	std::string name;
@@ -16,9 +16,11 @@ struct doctor
 
 	~doctor()
 	{
-		std::cout << "doctor destructor" << std::endl;
+		std::cout << "doctor destructor" << name << std::endl;
 	}
 };
+
+
 int main()
 {
 	struct animal
@@ -33,7 +35,7 @@ int main()
 		}
 		~animal()
 		{
-			std::cout << "animal destructor " << std::endl;
+			std::cout << "animal destructor " << name << std::endl;
 		}
 	};
 
@@ -45,12 +47,29 @@ int main()
 		}
 		~dog()
 		{
-			std::cout << "dog destructor" << std::endl;
+			std::cout << "dog destructor" << name << std::endl;
 		}
 	};
 	std::cout << "start of main" << std::endl;
+	{
+		doctor theVet("xxxxxxxx ");
+	}
+	std::cout << "after the scope" << std::endl;
 	doctor theVet("dr. smith");
 	dog houseDog("rover",&theVet);
 	dog yardDog("hunter",&theVet);
+
+	std::array<dog,3> dogs;
+
+
+	dogs[0] = houseDog;
+	dogs[1] = houseDog;
+	dogs[2] = yardDog;
+// fix me for wednesday
+	for (auto &d:dogs)
+	{
+		std::cout << d.name << std::endl;
+	}
+
 	std::cout << "end of main" << std::endl;
 }
