@@ -5,5 +5,6 @@
 
 int main()
 {
-	printf("%x\n",GPIO_PORTF_DATA_BITS_R);
+	uint32_t *p = (uint32_t*) 0x420053fc;
+	printf("%x\n",&p[1]);
 }
