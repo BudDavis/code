@@ -27,10 +27,7 @@ int main ()
 			for (auto j : i) // by course
 			{
 				count++;
-				//std::cout << j.size() << std::endl;
 				std::cout << j << std::endl;
-				//std::cout << i << std::endl;
-				//std::cout << std::endl << std::endl;
 			}
 		}
 		std::cout << "the final count is " << count << std::endl;
