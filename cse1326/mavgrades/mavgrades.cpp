@@ -1,19 +1,31 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 
 #include "json.hpp"
 
-#include "course.hpp"
-
 // This program will read the mavgrades data file, and
 // perform various analysis of the data.
-//
+#if 0
+ "subject_id": "SPAN",
+      "course_number": "5303",
+      "course_title": "APPLIED SPANISH LINGUISTICS",
+      "section_number": "001",
+#endif
+struct courses
+{
+	std::string course_number;
+	std::string course_title;
+	std::string section_number;
+	courses(nlohmann::json d)
+	{
+		course_number = d["course_number"];
+		course_title = d["course_title"];
+		section_number = d["section_number"];
+	}
+};
 
 const std::string fileName = "allgradedata.json";
-
-std::vector<course> courseList;
 
 int main () 
 {
@@ -25,24 +37,20 @@ int main ()
 		// in memory as a json object (of objects), so it is easy to deal with, but uses a lot 
 		// of memory and cpu.
 		int count=0;
-		// std::cout << "data size is " << data.size() << std::endl;
+		std::cout << "data size is " << data.size() << std::endl;
 		for (auto i : data) // by semester
 		{
-			//std::cout << "i size is " << i.size() << std::endl;
+			std::cout << "i size is " << i.size() << std::endl;
 			for (auto j : i) // by course
 			{
 				count++;
-				//std::cout << j << std::endl;
-				courseList.push_back(course(j));
+				std::cout << j << std::endl;
+				// will want to do something with this eventually.
+				courses *t = new courses(j);
+
 			}
 		}
 		std::cout << "the final count is " << count << std::endl;
-	}
-	// after this point, we no longer will deal with json representation
-	std::cout << "in the vector " << courseList.size() << std::endl;
-	for (auto i:courseList)
-	{
-		std::cout << i.shortName() << std::endl;
 	}
 	return 0;
 }
