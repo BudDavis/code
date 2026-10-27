@@ -60,7 +60,7 @@ int main()
 		auto node = root;
 		while (node)
 		{
-			t += node->val;
+			t = node->val;
 			node = node->r;
 		}
 	        return t;
