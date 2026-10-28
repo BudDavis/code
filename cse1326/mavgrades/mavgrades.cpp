@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include "json.hpp"
 
@@ -27,6 +28,8 @@ struct courses
 
 const std::string fileName = "allgradedata.json";
 
+std::vector<courses> courseList;
+
 int main () 
 {
 	std::ifstream dFile(fileName); 
@@ -46,11 +49,11 @@ int main ()
 				count++;
 				std::cout << j << std::endl;
 				// will want to do something with this eventually.
-				courses *t = new courses(j);
-
+				courseList.push_back(courses(j));
 			}
 		}
 		std::cout << "the final count is " << count << std::endl;
+		std::cout << "in the vector " << courseList.size() << std::endl;
 	}
 	return 0;
 }
