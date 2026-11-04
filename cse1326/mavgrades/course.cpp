@@ -1,15 +1,12 @@
 #include "course.hpp"
-
-
-course::course(nlohmann::json j)
+#include "json.hpp"
+course::course(nlohmann::json d)
 {
-	courseSubject = j["subject_id"];
-	courseNumber = j["course_number"];
+	courseSubject = d["subject_id"];
+	courseNumber = d["course_number"];
+	courseTitle = d["course_title"];
+	sectionNumber = d["section_number"];
+	year = d["year"];
+	semester = d["semester"];
 }
-
-const std::string course::shortName()
-{
-	return courseSubject + courseNumber;
-}
-
 

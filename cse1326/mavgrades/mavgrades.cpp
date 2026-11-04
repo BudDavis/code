@@ -2,33 +2,19 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
+#include "course.hpp"
 #include "json.hpp"
 
 // This program will read the mavgrades data file, and
 // perform various analysis of the data.
-#if 0
- "subject_id": "SPAN",
-      "course_number": "5303",
-      "course_title": "APPLIED SPANISH LINGUISTICS",
-      "section_number": "001",
-#endif
-struct courses
-{
-	std::string course_number;
-	std::string course_title;
-	std::string section_number;
-	courses(nlohmann::json d)
-	{
-		course_number = d["course_number"];
-		course_title = d["course_title"];
-		section_number = d["section_number"];
-	}
-};
 
 const std::string fileName = "allgradedata.json";
 
-std::vector<courses> courseList;
+// when your only tool is a hammer, every problem needs a nail.
+// (that is why I am using a vector....)
+std::vector<course> courseList;
 
 int main () 
 {
@@ -40,21 +26,35 @@ int main ()
 		// in memory as a json object (of objects), so it is easy to deal with, but uses a lot 
 		// of memory and cpu.
 		int count=0;
-		std::cout << "data size is " << data.size() << std::endl;
 		for (auto i : data) // by semester
 		{
-			std::cout << "i size is " << i.size() << std::endl;
 			for (auto j : i) // by course
 			{
-				count++;
-				std::cout << j << std::endl;
-				// will want to do something with this eventually.
-				courseList.push_back(courses(j));
+				// ignore graduate classes
+				if (j["career"]=="UGRD")
+				{
+					count++;
+					// std::cout << j << std::endl;
+					// will want to do something with this eventually.
+					courseList.push_back(course(j));
+				}
 			}
 		}
-		std::cout << "the final count is " << count << std::endl;
-		std::cout << "in the vector " << courseList.size() << std::endl;
+		std::cout << "the data file is loaded into memory,C++ style" << std::endl;
 	}
+	// the json is now all out of scope.  perhaps the memory will be given back for future use.
+        std::string searchSubject = "CSE";
+	std::string searchYear = "2025";
+	std::string searchSemester = "Fall";	
+	auto if_subject_and_year_and_semester = [&](course &C)
+	{
+		return (C.courseSubject == searchSubject) && (C.year == searchYear) && (C.semester == searchSemester);
+	};
+	auto count = std::count_if(courseList.begin(),courseList.end(),if_subject_and_year_and_semester);
+	std::cout << "Fall 2025 " << count << std::endl;
+	searchSemester = "Spring";
+	auto count2 = std::count_if(courseList.begin(),courseList.end(),if_subject_and_year_and_semester);
+	std::cout << "Spring 2025 " << count2 << std::endl;
 	return 0;
 }
 
