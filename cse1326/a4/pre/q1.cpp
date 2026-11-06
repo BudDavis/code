@@ -24,7 +24,7 @@ int main()
 	{
 		itr = std::find_if(itr,files.end(),[](std::string s)
 		{
-			return s.find("/map.h")!=std::string::npos;
+			return (s.find("/map.h")!=std::string::npos) && (s[s.size()-2]=='.');
 		});
 		if (itr!=files.end())
 		{
