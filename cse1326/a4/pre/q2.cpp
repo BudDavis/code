@@ -1,62 +1,31 @@
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include <map>
+#include <iostream>
+#include <string>
 #include <algorithm>
 
-class fileInfo
+template <typename func>
+std::vector<std::vector<int>::iterator> sub_set ( std::vector<int> &I,func F)
 {
-	public:
-	std::string infoFromFile;
-};
-
-std::map<std::string,std::vector<fileInfo*>> fileMap;
-
-int main()
-{
-	std::ifstream f("filelist.txt");
-	std::string S;
-	while (std::getline(f,S))
+	std::vector<std::vector<int>::iterator> retval;
+	auto itr = I.begin();
+	while (itr!=I.end())
 	{
-		// no matter what, we will need a fileInfo to put
-		// in the map
-		fileInfo *fi = new fileInfo{S};
-		// find the key and look in the map
-		std::string fname = S.substr(S.rfind('/')+1);
-		auto itr = fileMap.find(fname);
-                if(itr == fileMap.end())
+		if (F(*itr))
 		{
-			std::vector<fileInfo*> V;
-			V.push_back(fi);
-			fileMap[fname] = V;
+			retval.push_back(itr);
 		}
-		else
-		{
-			itr->second.push_back(fi);
-		}
-	}
-	f.close();
-	// search for something specific
-	std::cout << "items in map = " << fileMap.size() << std::endl;
-	for (auto j:fileMap.find("lcms2.pc")->second)
-		
-	{
-		std::cout << j->infoFromFile << std::endl;
-	}
-	// clean up
-	auto itr=fileMap.begin();
-	while (itr!=fileMap.end())
-	{
-		// there will always be at least one item in the vector
-		auto V = itr->second;
-		for (auto &U:V)
-		{
-			delete U;
-			U = nullptr;
-		}
-		V.erase(V.begin(),V.end());
 		itr++;
 	}
-
-	return 0;
+	return retval;
 }
+int main()
+{
+	std::vector<int> V = {9,8,7,6,5,4,3,2,1,0,123,456};
+	auto is_odd = [](int &A) { return (A%2)==0; };
+	auto U = sub_set(V,is_odd);
+	for (auto &j:U)
+	{
+		std::cout << *j << std::endl;
+	}
+	return 0;
+}  
