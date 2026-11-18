@@ -3,6 +3,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include <gtkmm/label.h>
 #include <iostream>
 
 class ButtonWindow : public Gtk::Window {
@@ -19,13 +20,15 @@ public:
     m_button.signal_clicked().connect(
         sigc::mem_fun(*this, &ButtonWindow::on_button_clicked));
 
-
+    m_button.signal_clicked().connect([](){std::cout << "hello" << std::endl;});
     //m_VBox(Gtk::Orientation::VERTICAL, 10);
     //m_box.set_orientation(Gtk::Orientation::HORIZONTAL);
     m_box.set_orientation(Gtk::Orientation::VERTICAL);
     // Place the button inside the window (gtkmm 4 uses set_child)
     m_box.append(m_button);
     m_box.append(m_another_button);
+    Gtk::Label l("i am a text label");
+    m_box.append(l);
     set_child(m_box);
   }
 
