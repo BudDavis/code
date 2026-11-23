@@ -3,11 +3,11 @@
 
 class ExampleWindow : public Gtk::Window 
 {
-	int count;
+	int m_count;
 public:
   ExampleWindow() 
   {
-	count = 0;
+	m_count = 0;
        	m_conn = Glib::signal_idle().connect(sigc::mem_fun(*this, &ExampleWindow::on_idle));
   }
 
@@ -19,9 +19,9 @@ public:
 private:
   bool on_idle() 
   {
-	std::cout << count << std::endl;
-	count++;
-	return true;
+	std::cout << m_count << std::endl;
+	m_count++;
+	return m_count<25;
   }
 
   sigc::connection m_conn;
