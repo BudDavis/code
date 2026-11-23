@@ -27,6 +27,7 @@ HelloWorld::HelloWorld()
 
   // Sets the margin around the box.
   m_box1.set_margin(10);
+  m_box1.set_orientation(Gtk::Orientation::VERTICAL);
 
   // put the box into the main window.
   set_child(m_box1);
